@@ -112,6 +112,26 @@ WHERE
 	value_type_code = 5958
 	AND calculation_code = 200;
 
+
+CREATE OR REPLACE TABLE t_eva_cajzlova_czechia_payroll_final AS 
+	SELECT
+		cp.id,
+		cp.value,
+		cpu.name AS payroll_value_name,
+		cp.industry_branch_code,
+		cpib.name AS branch_code_name,
+		cp.payroll_year,
+		cp.payroll_quarter
+	FROM czechia_payroll cp
+	LEFT JOIN czechia_payroll_industry_branch cpib
+		ON cp.industry_branch_code = cpib.code
+	JOIN czechia_payroll_unit cpu
+		ON cp.unit_code = cpu.code
+	WHERE
+		cp.value_type_code = 5958 -- prumerna hruba mzda zamestnance
+		AND cp.calculation_code = 100; -- fyzicky plat
+
+
 SELECT
 	min(payroll_year), -- 2000
 	max(payroll_year) -- 2021
@@ -231,17 +251,18 @@ FROM t_eva_cajzlova_czechia_price_year_quarter cpyq
 WHERE
 	category_code IS NULL;
 
-SELECT
-	cpyq.id,
-	cpyq.value,
-	cpyq.category_code,
-	cpc.name,
-	concat(cpc.price_value, ' ', cpc.price_unit) AS price_value_unit,
-	cpyq.region_code,
-	cpyq.price_year,
-	cpyq.price_quarter
-FROM t_eva_cajzlova_czechia_price_year_quarter cpyq
-JOIN czechia_price_category cpc
-	ON cpyq.category_code = cpc.code;
+CREATE OR REPLACE TABLE t_eva_cajzlova_czechia_price_final AS
+	SELECT
+		cpyq.id,
+		cpyq.value,
+		cpyq.category_code,
+		cpc.name,
+		concat(cpc.price_value, ' ', cpc.price_unit) AS price_value_unit,
+		cpyq.region_code,
+		cpyq.price_year,
+		cpyq.price_quarter
+	FROM t_eva_cajzlova_czechia_price_year_quarter cpyq
+	JOIN czechia_price_category cpc
+		ON cpyq.category_code = cpc.code;
 
 

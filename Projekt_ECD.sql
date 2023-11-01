@@ -222,30 +222,55 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_czechia_price_year_quarter AS
 		END AS price_quarter
 	FROM czechia_price cp;
 
+SELECT *
+FROM t_eva_cajzlova_czechia_price_year_quarter teccpyq
+WHERE
+	region_code IS NULL
+ORDER BY
+	category_code,
+	price_year,
+	price_quarter;
+
+CREATE OR REPLACE TABLE t_eva_cajzlova_czechia_price_year_quarter_avg AS
+	SELECT
+		id,
+		round(avg(value), 2) AS avg_price_value_quarter,
+		category_code,
+		price_year,
+		price_quarter
+	FROM t_eva_cajzlova_czechia_price_year_quarter teccpyq
+	WHERE
+		region_code IS NULL
+	GROUP BY
+		category_code,
+		price_year,
+		price_quarter
+	ORDER BY
+		category_code,
+		price_year,
+		price_quarter;
+	
 CREATE OR REPLACE TABLE t_eva_cajzlova_czechia_price_final AS
 	SELECT
-		cpyq.id AS price_id,
-		cpyq.value AS price_value,
-		cpyq.category_code,
+		pyqa.id AS price_id,
+		pyqa.avg_price_value_quarter AS price_avg_value,
+		pyqa.category_code,
 		cpc.name AS category_name,
 		concat(cpc.price_value, ' ', cpc.price_unit) AS price_value_unit,
-		cpyq.price_year,
-		cpyq.price_quarter
-	FROM t_eva_cajzlova_czechia_price_year_quarter cpyq
+		pyqa.price_year,
+		pyqa.price_quarter
+	FROM t_eva_cajzlova_czechia_price_year_quarter_avg pyqa
 	JOIN czechia_price_category cpc
-		ON cpyq.category_code = cpc.code
-	WHERE
-		region_code IS NULL -- vybiram jen prumer pro celou CR
+		ON pyqa.category_code = cpc.code
 	ORDER BY
-		cpyq.category_code,
-		cpyq.price_year,
-		cpyq.price_quarter;
-
+		pyqa.category_code,
+		pyqa.price_year,
+		pyqa.price_quarter;
 
 -- Spojeni predpripravenych payroll a price tabulek
 SELECT
 	min(payroll_year), -- 2000
-	max(payroll_year), -- 2021
+	max(payroll_year) -- 2021
 FROM t_eva_cajzlova_czechia_payroll_final teccpf;
 
 SELECT
@@ -256,4 +281,12 @@ FROM t_eva_cajzlova_czechia_price_final teccpf;
 -- 2006 - 2018
 -- t_{jmeno}_{prijmeni}_project_SQL_primary_final
 
-
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_SQL_primary_final
+	SELECT *
+	FROM t_eva_cajzlova_czechia_payroll_final payf
+	JOIN t_eva_cajzlova_czechia_price_final prif
+		ON payf.payroll_year = prif.price_year
+		AND payf.payroll_quarter = prif.price_quarter
+	WHERE
+		prif.price_year BETWEEN 2006 AND 2018;
+-- pozor na kapra (meri se jednou v roce na Vanoce), a vino (meri se od roku 2015)

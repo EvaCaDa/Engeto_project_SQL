@@ -290,3 +290,7 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_SQL_primary_final
 	WHERE
 		prif.price_year BETWEEN 2006 AND 2018;
 -- pozor na kapra (meri se jednou v roce na Vanoce), a vino (meri se od roku 2015)
+
+-- uhladit kod (udelat si view, ne tabulky nekde?)
+-- zkontrolovat jeste jednou logiku
+-- sepseat popis dat do readme, proc  jsem vybrala co jsem vybrala, pak vyhodit vetsinu poznamek z kodu

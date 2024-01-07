@@ -389,4 +389,33 @@ GROUP BY
 	category_code
 ORDER BY
 	price_growth_percent_avg ASC;
+
+-- pro orientacni zjisteni, jak casto vlastne cena merenych potravin klesala a jak casto rostla
+CREATE VIEW v_eva_cajzlova_question3_growth AS
+	SELECT
+		*,
+		CASE
+			WHEN interannual_difference_percent >= 0 THEN 1
+			ELSE 0
+		END AS growth
+	FROM v_eva_cajzlova_question3_interannual_difference_percent;
+
+SELECT
+	count(average_price),
+	sum(growth)
+FROM v_eva_cajzlova_question3_growth;
+
+-- Tady si hraju, ale asi to necham byt, je to v kontextu tech procent docela divny.
+SELECT
+	category_code,
+	category_name,
+	price_value_unit,
+	min(average_price),
+	max(average_price),
+	sum(interannual_difference_percent) AS total_price_growth_percent
+FROM v_eva_cajzlova_question3_interannual_difference_percent
+GROUP BY
+	category_code
+ORDER BY
+	total_price_growth_percent ASC;
 	

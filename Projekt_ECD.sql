@@ -418,4 +418,45 @@ GROUP BY
 	category_code
 ORDER BY
 	total_price_growth_percent ASC;
-	
+
+
+-- Otazka 2
+-- Kolik je možné si koupit litrů mléka a kilogramů chleba za první a poslední srovnatelné období v dostupných datech cen a mezd?
+-- mleko: 114201; chleba: 111301
+-- prvni: 2006, posledni: 2018
+
+SELECT
+	industry_branch_code,
+	branch_code_name,
+	payroll_year,
+	payroll_quarter,
+	payroll_value,
+	category_code,
+	category_name,
+	price_value_unit,
+	price_avg_value
+FROM t_eva_cajzlova_project_sql_primary_final
+WHERE
+	(category_code = 114201 AND price_year = 2006 AND price_quarter = 1)
+	OR (category_code = 111301 AND price_year = 2006 AND price_quarter = 1)
+	OR (category_code = 114201 AND price_year = 2018 AND price_quarter = 4)
+	OR (category_code = 111301 AND price_year = 2018 AND price_quarter = 4);
+
+-- Musim dodelat, ale klidne bych udelala jedno srovnani za prvni ctvrtleti 2006 a posledni ctvrtleti 2018 (viz vyse), pak durhy teda za roky, o to se snazim tady ted.
+SELECT
+	industry_branch_code,
+	branch_code_name,
+	payroll_year,
+	payroll_value, -- huhu
+	category_code,
+	category_name,
+	price_value_unit,
+	price_avg_value -- huhu
+FROM t_eva_cajzlova_project_sql_primary_final
+WHERE
+	(category_code = 114201 AND price_year = 2006)
+	OR (category_code = 111301 AND price_year = 2006)
+	OR (category_code = 114201 AND price_year = 2018)
+	OR (category_code = 111301 AND price_year = 2018)
+GROUP BY
+	price_year;

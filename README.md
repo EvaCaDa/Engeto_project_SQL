@@ -16,7 +16,7 @@ Největší meziroční pokles mezd nastal v oblasti "Peněžnictví a pojišťo
 
 ## Otázka 2: Kolik je možné si koupit litrů mléka a kilogramů chleba za první a poslední srovnatelné období v dostupných datech cen a mezd?
 
-V roce 2006 bylo možné si za průměrnou mzdu v rámci všech odvětví koupit 1408 l mléka nebo 1258 kg chleba. O dvanáct let později bylo možné za průměrnou mzdu získat 1613 l mléka a 1319 kg chleba.
+V roce 2006 bylo možné si za průměrnou mzdu v rámci všech odvětví koupit 1408 l mléka nebo 1258 kg chleba. O dvanáct let později bylo možné za průměrnou mzdu získat 1613 l mléka nebo 1319 kg chleba.
 
 ## Otázka 3: Která kategorie potravin zdražuje nejpomaleji (je u ní nejnižší percentuální meziroční nárůst)?
 

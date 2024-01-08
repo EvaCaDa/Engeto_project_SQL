@@ -425,38 +425,106 @@ ORDER BY
 -- mleko: 114201; chleba: 111301
 -- prvni: 2006, posledni: 2018
 
-SELECT
-	industry_branch_code,
-	branch_code_name,
-	payroll_year,
-	payroll_quarter,
-	payroll_value,
-	category_code,
-	category_name,
-	price_value_unit,
-	price_avg_value
-FROM t_eva_cajzlova_project_sql_primary_final
-WHERE
-	(category_code = 114201 AND price_year = 2006 AND price_quarter = 1)
-	OR (category_code = 111301 AND price_year = 2006 AND price_quarter = 1)
-	OR (category_code = 114201 AND price_year = 2018 AND price_quarter = 4)
-	OR (category_code = 111301 AND price_year = 2018 AND price_quarter = 4);
+CREATE OR REPLACE VIEW v_eva_cajzlova_question2_quarters AS
+	SELECT
+		industry_branch_code,
+		branch_code_name,
+		payroll_year,
+		payroll_quarter,
+		payroll_value,
+		category_code,
+		category_name,
+		price_value_unit,
+		price_avg_value
+	FROM t_eva_cajzlova_project_sql_primary_final
+	WHERE
+		(category_code = 114201 AND price_year = 2006 AND price_quarter = 1)
+		OR (category_code = 111301 AND price_year = 2006 AND price_quarter = 1)
+		OR (category_code = 114201 AND price_year = 2018 AND price_quarter = 4)
+		OR (category_code = 111301 AND price_year = 2018 AND price_quarter = 4)
+	ORDER BY
+		industry_branch_code ASC,
+		category_code ASC,
+		payroll_year ASC,
+		payroll_quarter ASC;
+
+CREATE OR REPLACE VIEW v_eva_cajzlova_question2_quarters_all_branches AS 
+	SELECT
+		payroll_year,
+		payroll_quarter,
+		industry_branch_code,
+		branch_code_name,
+		category_code,
+		category_name,
+		round((payroll_value/price_avg_value), 2) AS affordable_amount
+	FROM v_eva_cajzlova_question2_quarters
+	ORDER BY
+		category_code ASC,
+		payroll_year ASC,
+		payroll_quarter ASC,
+		industry_branch_code ASC;
+
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question2_quarters_total AS 
+	SELECT
+		payroll_year,
+		payroll_quarter,
+		category_code,
+		category_name,
+		round(avg(affordable_amount), 2) AS average_affordable_amount
+	FROM v_eva_cajzlova_question2_quarters_all_branches
+	GROUP BY
+		payroll_year,
+		payroll_quarter,
+		category_code
+	ORDER BY
+		payroll_year ASC;
 
 -- Musim dodelat, ale klidne bych udelala jedno srovnani za prvni ctvrtleti 2006 a posledni ctvrtleti 2018 (viz vyse), pak durhy teda za roky, o to se snazim tady ted.
-SELECT
-	industry_branch_code,
-	branch_code_name,
-	payroll_year,
-	payroll_value, -- huhu
-	category_code,
-	category_name,
-	price_value_unit,
-	price_avg_value -- huhu
-FROM t_eva_cajzlova_project_sql_primary_final
-WHERE
-	(category_code = 114201 AND price_year = 2006)
-	OR (category_code = 111301 AND price_year = 2006)
-	OR (category_code = 114201 AND price_year = 2018)
-	OR (category_code = 111301 AND price_year = 2018)
-GROUP BY
-	price_year;
+
+CREATE OR REPLACE VIEW v_eva_cajzlova_question2_years AS
+	SELECT
+		industry_branch_code,
+		branch_code_name,
+		payroll_year,
+		round(avg(payroll_value), 2) AS average_payroll,
+		category_code,
+		category_name,
+		price_value_unit,
+		round(avg(price_avg_value), 2) AS average_price
+	FROM t_eva_cajzlova_project_sql_primary_final
+	WHERE
+		(category_code = 114201 AND price_year = 2006)
+		OR (category_code = 111301 AND price_year = 2006)
+		OR (category_code = 114201 AND price_year = 2018)
+		OR (category_code = 111301 AND price_year = 2018)
+	GROUP BY
+		category_code,
+		industry_branch_code,
+		payroll_year;
+
+CREATE OR REPLACE VIEW v_eva_cajzlova_question2_years_all_branches AS 
+	SELECT
+		payroll_year,
+		industry_branch_code,
+		branch_code_name,
+		category_code,
+		category_name,
+		round((average_payroll/average_price), 2) AS affordable_amount
+	FROM v_eva_cajzlova_question2_years
+	ORDER BY
+		category_code ASC,
+		payroll_year ASC,
+		industry_branch_code ASC;
+
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question2_years_total AS 
+	SELECT
+		payroll_year,
+		category_code,
+		category_name,
+		round(avg(affordable_amount), 2) AS average_affordable_amount
+	FROM v_eva_cajzlova_question2_years_all_branches
+	GROUP BY
+		payroll_year,
+		category_code
+	ORDER BY
+		payroll_year ASC;

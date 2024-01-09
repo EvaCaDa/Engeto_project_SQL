@@ -528,3 +528,39 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question2_years_total AS
 		category_code
 	ORDER BY
 		payroll_year ASC;
+
+-- Otazka 4
+-- Existuje rok, ve kterém byl meziroční nárůst cen potravin výrazně vyšší než růst mezd (větší než 10 %)?
+
+-- propojit postup otazek 1 a 3, pripravit si data pro mzdy a potraviny zvlast, pak je spojit, asi az na roce
+-- zjednodusit odpovedi na otazky, pisu jakejsi roman tam
+
+-- zdrojova data
+-- v_eva_cajzlova_question3_interannual_difference_percent
+-- v_eva_cajzlova_question1_avg_payroll_year
+
+-- potraviny
+SELECT
+	price_year,
+	round(avg(interannual_difference_percent), 2) AS price_ia_diff_percent_avg_all
+FROM v_eva_cajzlova_question3_interannual_difference_percent
+GROUP BY
+	price_year;
+
+-- mzdy
+CREATE OR REPLACE VIEW v_eva_cajzlova_question4_payroll_difference_percent AS 
+	SELECT
+		tab1.*,
+		tab2.average_payroll AS last_year_average_payroll,
+		round(((tab1.average_payroll / tab2.average_payroll * 100) - 100), 2) AS interannual_difference_percent
+	FROM v_eva_cajzlova_question1_avg_payroll_year tab1
+	JOIN v_eva_cajzlova_question1_avg_payroll_year tab2
+		ON tab1.payroll_year = tab2.payroll_year + 1
+		AND tab1.industry_branch_code = tab2.industry_branch_code;
+
+SELECT
+	payroll_year,
+	round(avg(interannual_difference_percent), 2) AS payroll_ia_diff_percent_avg_all
+FROM v_eva_cajzlova_question4_payroll_difference_percent
+GROUP BY
+	payroll_year;

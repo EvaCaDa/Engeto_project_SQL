@@ -539,13 +539,18 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question2_years_total AS
 -- v_eva_cajzlova_question3_interannual_difference_percent
 -- v_eva_cajzlova_question1_avg_payroll_year
 
--- potraviny
-SELECT
-	price_year,
-	round(avg(interannual_difference_percent), 2) AS price_ia_diff_percent_avg_all
-FROM v_eva_cajzlova_question3_interannual_difference_percent
-GROUP BY
-	price_year;
+-- potravin
+
+SELECT *
+FROM v_eva_cajzlova_question3_interannual_difference_percent;
+
+CREATE OR REPLACE VIEW v_eva_cajzlova_question4_price_dif_percent_avg AS
+	SELECT
+		price_year,
+		round(avg(interannual_difference_percent), 2) AS price_ia_diff_percent_avg_all
+	FROM v_eva_cajzlova_question3_interannual_difference_percent
+	GROUP BY
+		price_year;
 
 -- mzdy
 CREATE OR REPLACE VIEW v_eva_cajzlova_question4_payroll_difference_percent AS 
@@ -558,9 +563,37 @@ CREATE OR REPLACE VIEW v_eva_cajzlova_question4_payroll_difference_percent AS
 		ON tab1.payroll_year = tab2.payroll_year + 1
 		AND tab1.industry_branch_code = tab2.industry_branch_code;
 
+CREATE OR REPLACE VIEW v_eva_cajzlova_question4_payroll_dif_percent_avg AS
+	SELECT
+		payroll_year,
+		round(avg(interannual_difference_percent), 2) AS payroll_ia_diff_percent_avg_all
+	FROM v_eva_cajzlova_question4_payroll_difference_percent
+	GROUP BY
+		payroll_year;
+
 SELECT
-	payroll_year,
-	round(avg(interannual_difference_percent), 2) AS payroll_ia_diff_percent_avg_all
-FROM v_eva_cajzlova_question4_payroll_difference_percent
-GROUP BY
-	payroll_year;
+	pay.payroll_year AS 'year',
+	pay.payroll_ia_diff_percent_avg_all,
+	pri.price_ia_diff_percent_avg_all,
+	(pri.price_ia_diff_percent_avg_all - pay.payroll_ia_diff_percent_avg_all) AS difference
+FROM v_eva_cajzlova_question4_payroll_dif_percent_avg pay
+JOIN v_eva_cajzlova_question4_price_dif_percent_avg pri
+	ON pay.payroll_year = pri.price_year
+ORDER BY
+	difference;
+
+-- udělat si kartézský součin každá potravina s kažou prací???
+
+SELECT
+	*,
+	(pri.interannual_difference_percent - pay.interannual_difference_percent) AS difference
+FROM v_eva_cajzlova_question4_payroll_difference_percent pay
+JOIN v_eva_cajzlova_question3_interannual_difference_percent pri
+	ON pay.payroll_year = pri.price_year
+ORDER BY
+	difference;
+
+-- jeste to omezit jen na roky? uvidime, co bude dobre
+
+-- musim to cele nutne projit od zacatku (az dokoncim 4), mam desnej bordel v pojmenovavani veci, je to neprehledny, tady se to hodne ukazuje - jak views, tak promennych
+-- mrknout se jeste na with, jestli by me to nezbavilo nejakych views, mam jich tam vazne hodne

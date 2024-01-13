@@ -35,7 +35,7 @@ CREATE OR REPLACE VIEW v_eva_cajzlova_question4_payroll_dif_percent_avg AS
 
 CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_final AS 
 	SELECT
-		pay.payroll_year AS 'year',
+		pay.payroll_year AS `year`,
 		pay.payroll_ia_diff_percent_avg,
 		pri.price_ia_diff_percent_avg,
 		(pri.price_ia_diff_percent_avg - pay.payroll_ia_diff_percent_avg) AS growth_difference
@@ -45,10 +45,30 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_final AS
 	ORDER BY
 		growth_difference;
 
-CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_all AS 
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_all_branches_categories AS 
 	SELECT
-		*,
+		pay.payroll_year AS `year`,
+		pay.industry_branch_code,
+		pay.branch_code_name,
+		pay.interannual_difference_percent AS payroll_ia_diff_percent,
+		pri.category_code,
+		pri.category_name,
+		pri.price_value_unit,
+		pri.interannual_difference_percent AS rice_ia_diff_percent,
 		(pri.interannual_difference_percent - pay.interannual_difference_percent) AS growth_difference
 	FROM v_eva_cajzlova_question4_payroll_difference_percent pay
 	JOIN v_eva_cajzlova_question3_interannual_difference_percent pri
-		ON pay.payroll_year = pri.price_year;
+		ON pay.payroll_year = pri.price_year
+	HAVING
+		growth_difference > 10;
+
+SELECT
+	DISTINCT(`year`)
+FROM t_eva_cajzlova_project_sql_question4_all_branches_categories
+ORDER BY
+	`year`;
+
+SELECT *
+FROM t_eva_cajzlova_project_sql_question4_all_branches_categories
+ORDER BY
+	growth_difference DESC;

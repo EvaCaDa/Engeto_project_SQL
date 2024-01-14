@@ -7,6 +7,7 @@
  * v_eva_cajzlova_question1_payroll_year_avg
  */
 
+-- meziroční růst cen potravin (průměr všech kategorií) versus meziroční růst cen mezd (průměr všech odvětví)
 CREATE OR REPLACE VIEW v_eva_cajzlova_question4_price_dif_percent_avg AS
 	SELECT
 		price_year,
@@ -45,6 +46,55 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_final AS
 	ORDER BY
 		growth_difference;
 
+-- meziroční růst cen potravin dle kategorií versus meziroční růst cen mezd (průměr všech odvětví)
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_all_categories AS 
+	SELECT
+		pay.payroll_year AS `year`,
+		round(avg(pay.interannual_difference_percent), 2) AS payroll_ia_diff_percent_avg,
+		pri.category_code,
+		pri.category_name,
+		pri.price_value_unit,
+		pri.interannual_difference_percent AS price_ia_diff_percent,
+		(pri.interannual_difference_percent - round(avg(pay.interannual_difference_percent), 2)) AS growth_difference
+	FROM v_eva_cajzlova_question4_payroll_difference_percent pay
+	JOIN v_eva_cajzlova_question3_interannual_difference_percent pri
+		ON pay.payroll_year = pri.price_year
+	GROUP BY
+		pay.payroll_year,
+		pri.category_code
+	HAVING
+		growth_difference > 10;
+
+SELECT
+	DISTINCT(`year`)
+FROM t_eva_cajzlova_project_sql_question4_all_categories
+ORDER BY
+	`year`;
+
+SELECT *
+FROM t_eva_cajzlova_project_sql_question4_all_categories
+ORDER BY
+	growth_difference DESC;
+
+-- meziroční růst cen potravin (průměr všech kategorií) versus meziroční růst cen mezd (dle odvětví)
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_all_branches AS 
+	SELECT
+		pay.payroll_year AS `year`,
+		round(avg(pri.interannual_difference_percent), 2) AS price_ia_diff_percent_avg,
+		pay.industry_branch_code,
+		pay.branch_code_name,
+		pay.interannual_difference_percent AS payroll_ia_diff_percent,
+		((round(avg(pri.interannual_difference_percent), 2)) - pay.interannual_difference_percent) AS growth_difference
+	FROM v_eva_cajzlova_question4_payroll_difference_percent pay
+	JOIN v_eva_cajzlova_question3_interannual_difference_percent pri
+		ON pay.payroll_year = pri.price_year
+	GROUP BY
+		pay.payroll_year,
+		pay.industry_branch_code
+	HAVING
+		growth_difference > 10;
+
+-- meziroční růst cen potravin dle kategorií versus meziroční růst cen mezd dle odvětví
 CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_all_branches_categories AS 
 	SELECT
 		pay.payroll_year AS `year`,
@@ -54,7 +104,7 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_all_branches_catego
 		pri.category_code,
 		pri.category_name,
 		pri.price_value_unit,
-		pri.interannual_difference_percent AS rice_ia_diff_percent,
+		pri.interannual_difference_percent AS price_ia_diff_percent,
 		(pri.interannual_difference_percent - pay.interannual_difference_percent) AS growth_difference
 	FROM v_eva_cajzlova_question4_payroll_difference_percent pay
 	JOIN v_eva_cajzlova_question3_interannual_difference_percent pri

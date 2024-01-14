@@ -23,3 +23,10 @@ V roce 2006 bylo možné si za průměrnou mzdu v rámci všech odvětví koupit
 Mezi lety 2006-2018 (pro kategorii "Jakostní víno bílé" jsou dostupná data pro rozmezí let 2015-2018) nejpomaleji zdražoval "Cukr krystalový" - průměrná cena za 1 kg tohoto zboží klesla o 23 %.
 Vedle cukru měla klesavou tendenci také cena "Rajských jablek červených kulatých", v rámci měřených let jejich cena poklesla téměř o 9 %.
 U ostatních měřených kategorií došlo k nárůstu jejich cen. Nejvíce podražily "Papriky", a to o 87 %. Takto dramatický nárůst byl způsoben především skokovým zdražením paprik mezi lety 2006 a 2007 (zdražení téměř o 95 %).
+
+## Otázka 4: Existuje rok, ve kterém byl meziroční nárůst cen potravin výrazně vyšší než růst mezd (větší než 10 %)?
+
+Pokud se podíváme na průměrnou hodnotu růstu cen všech měřených kategorií potravin a srovnáme ji s průměrnou hodnotou růstu mezd ve všech měřených odvětvích, tak takový rok neexistuje. Nejblíže k němu měl rok 2013, ve kterém ceny potravin rostly  o 6,81 % více než mzdy. Je však možné se na data podívat do většího detailu.
+Při srovnání růstu cen jednotlivých kategorií s průměrnou hodnotou mezd ve všech měřených odvětvích pouze v letech 2009 a 2014 meziročně nezdražila ani jediná kategorie potravin ve srovnání s průměrnm růstem mezd. Ve všech ostatních srovnatelných letech cena alespoň jedné kategorie potravin vzrostla výrazně více než mzdy. V roce 2007 cena paprik dokonce meziročně vzrostla o 87,57 % více než ceny mezd.
+Lze také srovnat růst cen všech měřených kategorií potravin se mzdami jednotlivých měřených odvětví. Při tomto pohledu pak rostly ceny všech potravin výrazně více než mzdy pouze v roce 2013, a to pro dvě měřená odvětví: "Výroba a rozvod elektřiny, plynu, tepla a klimatiz. vzduchu" (10,4 %) a "Peněžnictví a pojišťovnictví" (15,11 %).
+

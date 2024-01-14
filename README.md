@@ -6,6 +6,10 @@ First Engeto project
 Primární tabulka obsahuje data průměrných hrubých mezd a průměrných cen potravin v České republice za období 2006-2018.
 Vzhledem k tomu, že hlavním cílem výzkumu je analýza dostupnosti základních potravin široké veřejnosti, průměrné hrubé mzdy odpovídají fyzickému platu zaměstnanců (nejsou přepočítány na plné úvazky). Je tak lépe vidět, co si lidé skutečně mohli dovolit v daných letech koupit.
 
+## Sekundární tabulka - t_eva_cajzlova_project_SQL_secondary_final
+
+xxx
+
 ## Otázka 1: Rostou v průběhu let mzdy ve všech odvětvích, nebo v některých klesají?
 
 Na základě dostupných dat lze říci, že mezi lety 2006-2018 měly průměrné mzdy tendenci spíše růst než klesat. Průměrný meziroční nárůst mezd ve všech analyzovaných oblastech byl 970 Kč.

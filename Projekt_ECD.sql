@@ -617,3 +617,61 @@ ORDER BY
 
 -- musim to cele nutne projit od zacatku (az dokoncim 4), mam desnej bordel v pojmenovavani veci, je to neprehledny, tady se to hodne ukazuje - jak views, tak promennych
 -- mrknout se jeste na with, jestli by me to nezbavilo nejakych views, mam jich tam vazne hodne
+
+
+-- Otazka 5: Má výška HDP vliv na změny ve mzdách a cenách potravin? Neboli, pokud HDP vzroste výrazněji v jednom roce, 
+-- projeví se to na cenách potravin či mzdách ve stejném nebo násdujícím roce výraznějším růstem?
+
+-- plus t_{jmeno}_{prijmeni}_project_SQL_secondary_final
+-- dodatečný materiál připravte i tabulku s HDP, GINI koeficientem a populací dalších evropských států ve stejném období, jako primární přehled pro ČR -- 2006-2018
+-- countries - Všemožné informace o zemích na světě, například hlavní město, měna, národní jídlo nebo průměrná výška populace.
+-- economies - HDP, GINI, daňová zátěž, atd. pro daný stát a rok.
+
+
+CREATE OR REPLACE VIEW v_eva_cajzlova_countries_states AS 
+	SELECT
+		country
+	FROM countries c
+	WHERE
+		continent = 'Europe';
+
+CREATE OR REPLACE VIEW v_eva_cajzlova_economies_states AS
+	SELECT
+		DISTINCT(country)
+	FROM economies e
+	WHERE
+		country IN (
+			SELECT
+				country
+			FROM countries c
+			WHERE
+				continent = 'Europe'
+	);
+
+SELECT
+	cs.country AS list_countries,
+	es.country AS list_economies
+FROM v_eva_cajzlova_countries_states cs
+LEFT JOIN v_eva_cajzlova_economies_states es
+	ON cs.country = es.country;
+
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_SQL_secondary_final
+	SELECT
+		country,
+		`year`,
+		GDP,
+		population,
+		gini
+	FROM economies e
+	WHERE
+		(`year` BETWEEN 2006 AND 2018)
+		 AND country IN (
+			SELECT
+				country
+			FROM countries c
+			WHERE
+				continent = 'Europe'
+		)
+	ORDER BY
+		country,
+		`year`;

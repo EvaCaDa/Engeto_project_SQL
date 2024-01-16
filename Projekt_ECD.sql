@@ -620,7 +620,7 @@ ORDER BY
 
 
 -- Otazka 5: Má výška HDP vliv na změny ve mzdách a cenách potravin? Neboli, pokud HDP vzroste výrazněji v jednom roce, 
--- projeví se to na cenách potravin či mzdách ve stejném nebo násdujícím roce výraznějším růstem?
+-- projeví se to na cenách potravin či mzdách ve stejném nebo následujícím roce výraznějším růstem?
 
 -- plus t_{jmeno}_{prijmeni}_project_SQL_secondary_final
 -- dodatečný materiál připravte i tabulku s HDP, GINI koeficientem a populací dalších evropských států ve stejném období, jako primární přehled pro ČR -- 2006-2018
@@ -675,3 +675,61 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_SQL_secondary_final
 	ORDER BY
 		country,
 		`year`;
+
+
+-- Otazka 5: Má výška HDP vliv na změny ve mzdách a cenách potravin? Neboli, pokud HDP vzroste výrazněji v jednom roce, 
+-- projeví se to na cenách potravin či mzdách ve stejném nebo následujícím roce výraznějším růstem?
+-- vyraznejsi rust hdp - vetsi nez 10 % jak v otazce 4?
+-- 2,5% ???
+
+SELECT *
+FROM v_eva_cajzlova_question3_interannual_difference_percent vecqidp;
+
+SELECT *
+FROM v_eva_cajzlova_question4_payroll_difference_percent vecqpdp;
+
+CREATE OR REPLACE VIEW v_eva_cajzlova_question5_GDP_difference_percent AS 
+	SELECT
+		tab1.country,
+		tab1.`year`,
+		round(tab1.GDP, 2) AS GDP,
+		round(tab2.GDP, 2) AS last_year_GDP,
+		round(((tab1.GDP / tab2.GDP * 100) - 100), 2) AS GDP_ia_diff_percent
+	FROM t_eva_cajzlova_project_sql_secondary_final tab1
+	JOIN t_eva_cajzlova_project_sql_secondary_final tab2
+		ON tab1.`year` = tab2.`year` + 1
+		AND tab1.country = tab2.country
+	WHERE
+		tab1.country = 'Czech Republic';
+
+
+SELECT *
+FROM v_eva_cajzlova_question5_GDP_difference_percent;
+
+SELECT *
+FROM v_eva_cajzlova_question4_price_dif_percent_avg;
+
+SELECT *
+FROM v_eva_cajzlova_question4_payroll_dif_percent_avg;
+
+CREATE OR REPLACE VIEW v_eva_cajzlova_project_sql_question5_gdp_pri_pay AS 
+	SELECT
+		gdp.`year`,
+		gdp.GDP_ia_diff_percent,
+		pri.price_ia_diff_percent_avg,
+		pay.payroll_ia_diff_percent_avg
+	FROM v_eva_cajzlova_question5_GDP_difference_percent gdp
+	JOIN v_eva_cajzlova_question4_price_dif_percent_avg pri
+		ON gdp.`year` = pri.price_year
+	JOIN v_eva_cajzlova_question4_payroll_dif_percent_avg pay
+		ON gdp.`year` = pay.payroll_year;
+
+SELECT *
+	CASE
+		WHEN 
+	END
+	
+FROM v_eva_cajzlova_project_sql_question5_gdp_pri_pay;
+
+		
+-- spravit pojmenovani promennych v tabulce o payrollu ke question 4 a 1??? - average - otrava

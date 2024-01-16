@@ -19,7 +19,7 @@ CREATE OR REPLACE VIEW v_eva_cajzlova_question4_price_dif_percent_avg AS
 CREATE OR REPLACE VIEW v_eva_cajzlova_question4_payroll_difference_percent AS 
 	SELECT
 		tab1.*,
-		tab2.average_payroll AS last_year_average_payroll,
+		tab2.average_payroll AS last_year_payroll_avg,
 		round(((tab1.average_payroll / tab2.average_payroll * 100) - 100), 2) AS interannual_difference_percent
 	FROM v_eva_cajzlova_question1_payroll_year_avg tab1
 	JOIN v_eva_cajzlova_question1_payroll_year_avg tab2

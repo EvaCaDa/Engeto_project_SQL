@@ -712,24 +712,48 @@ FROM v_eva_cajzlova_question4_price_dif_percent_avg;
 SELECT *
 FROM v_eva_cajzlova_question4_payroll_dif_percent_avg;
 
-CREATE OR REPLACE VIEW v_eva_cajzlova_project_sql_question5_gdp_pri_pay AS 
+CREATE OR REPLACE VIEW v_eva_cajzlova_question5_gdp_pri_pay AS 
 	SELECT
 		gdp.`year`,
 		gdp.GDP_ia_diff_percent,
 		pri.price_ia_diff_percent_avg,
-		pay.payroll_ia_diff_percent_avg
+		pri2.price_ia_diff_percent_avg AS price_ia_diff_percent_avg_next_year,
+		pay.payroll_ia_diff_percent_avg,
+		pay2.payroll_ia_diff_percent_avg AS payroll_ia_diff_percent_avg_next_year
 	FROM v_eva_cajzlova_question5_GDP_difference_percent gdp
 	JOIN v_eva_cajzlova_question4_price_dif_percent_avg pri
 		ON gdp.`year` = pri.price_year
+	LEFT JOIN v_eva_cajzlova_question4_price_dif_percent_avg pri2
+		ON gdp.`year` = pri2.price_year - 1
 	JOIN v_eva_cajzlova_question4_payroll_dif_percent_avg pay
-		ON gdp.`year` = pay.payroll_year;
+		ON gdp.`year` = pay.payroll_year
+	LEFT JOIN v_eva_cajzlova_question4_payroll_dif_percent_avg pay2
+		ON gdp.`year` = pay2.payroll_year - 1;
 
-SELECT *
+SELECT
+	`year`,
+	GDP_ia_diff_percent,
 	CASE
-		WHEN 
-	END
-	
-FROM v_eva_cajzlova_project_sql_question5_gdp_pri_pay;
+		WHEN GDP_ia_diff_percent >= 2.5 THEN 1
+		ELSE 0
+	END AS GDP_sig_growth,
+	price_ia_diff_percent_avg,
+	price_ia_diff_percent_avg_next_year,
+	CASE
+		WHEN price_ia_diff_percent_avg >= 2.5 OR price_ia_diff_percent_avg_next_year >= 2.5 THEN 1
+		ELSE 0
+	END AS price_sig_growth,
+	payroll_ia_diff_percent_avg,
+	payroll_ia_diff_percent_avg_next_year,
+	CASE
+		WHEN payroll_ia_diff_percent_avg >= 2.5 OR payroll_ia_diff_percent_avg_next_year >= 2.5 THEN 1
+		ELSE 0
+	END AS payroll_sig_growth
+FROM v_eva_cajzlova_question5_gdp_pri_pay;
 
+SELECT
+	*
+FROM v_eva_cajzlova_question5_gdp_pri_pay
+ORDER BY GDP_ia_diff_percent
 		
 -- spravit pojmenovani promennych v tabulce o payrollu ke question 4 a 1??? - average - otrava

@@ -731,29 +731,56 @@ CREATE OR REPLACE VIEW v_eva_cajzlova_question5_gdp_pri_pay AS
 		ON gdp.`year` = pay2.payroll_year - 1;
 
 SELECT
-	`year`,
-	GDP_ia_diff_percent,
-	CASE
-		WHEN GDP_ia_diff_percent >= 2.5 THEN 1
-		ELSE 0
-	END AS GDP_sig_growth,
-	price_ia_diff_percent_avg,
-	price_ia_diff_percent_avg_next_year,
-	CASE
-		WHEN price_ia_diff_percent_avg >= 2.5 OR price_ia_diff_percent_avg_next_year >= 2.5 THEN 1
-		ELSE 0
-	END AS price_sig_growth,
-	payroll_ia_diff_percent_avg,
-	payroll_ia_diff_percent_avg_next_year,
-	CASE
-		WHEN payroll_ia_diff_percent_avg >= 2.5 OR payroll_ia_diff_percent_avg_next_year >= 2.5 THEN 1
-		ELSE 0
-	END AS payroll_sig_growth
+	*,
+	round((median(GDP_ia_diff_percent) OVER ()), 2) AS GDP_median
 FROM v_eva_cajzlova_question5_gdp_pri_pay;
+-- Medián GDP ve srovnatelném období (2.49) vezmu jako hranici pro výraznější růst.
 
-SELECT
-	*
-FROM v_eva_cajzlova_question5_gdp_pri_pay
-ORDER BY GDP_ia_diff_percent
-		
+CREATE OR REPLACE VIEW v_eva_cajzlova_question5_sig_changes AS 
+	SELECT
+		`year`,
+		GDP_ia_diff_percent,
+		CASE
+			WHEN GDP_ia_diff_percent >= 2.49 THEN 1
+			ELSE 0
+		END AS GDP_sig_growth,
+		price_ia_diff_percent_avg,
+		price_ia_diff_percent_avg_next_year,
+		CASE
+			WHEN price_ia_diff_percent_avg >= 2.49 OR price_ia_diff_percent_avg_next_year >= 2.49 THEN 1
+			ELSE 0
+		END AS price_sig_growth,
+		payroll_ia_diff_percent_avg,
+		payroll_ia_diff_percent_avg_next_year,
+		CASE
+			WHEN payroll_ia_diff_percent_avg >= 2.49 OR payroll_ia_diff_percent_avg_next_year >= 2.49 THEN 1
+			ELSE 0
+		END AS payroll_sig_growth
+	FROM v_eva_cajzlova_question5_gdp_pri_pay;
+
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question5_final AS 
+	SELECT 
+		`year`,
+		GDP_ia_diff_percent,
+		price_ia_diff_percent_avg,
+		payroll_ia_diff_percent_avg,
+		CASE
+			WHEN GDP_sig_growth = 1 AND (price_sig_growth = 1 OR payroll_sig_growth = 1) THEN 1
+			WHEN GDP_sig_growth = 0 THEN 2
+			ELSE 0
+		END AS effect_on_price_payroll,
+		CASE
+			WHEN GDP_sig_growth = 1 AND price_sig_growth = 1 THEN 1
+			WHEN GDP_sig_growth = 0 THEN 2
+			WHEN GDP_sig_growth = 1 AND payroll_sig_growth = 1 THEN 3
+			ELSE 0
+		END AS effect_on_price,
+		CASE
+			WHEN GDP_sig_growth = 1 AND payroll_sig_growth = 1 THEN 1
+			WHEN GDP_sig_growth = 0 THEN 2
+			WHEN GDP_sig_growth = 1 AND price_sig_growth = 1 THEN 3
+			ELSE 0
+		END AS effect_on_payroll
+	FROM v_eva_cajzlova_question5_sig_changes;
+
 -- spravit pojmenovani promennych v tabulce o payrollu ke question 4 a 1??? - average - otrava

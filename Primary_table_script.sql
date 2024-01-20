@@ -1,4 +1,6 @@
 /* 
+ * Uživatelské jméno Discord: Eva C.D.
+ * 
  * DATA PRO MZDY - PŘÍPRAVA
  * 
  * Zdrojová data:

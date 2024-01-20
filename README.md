@@ -1,6 +1,6 @@
 # Engeto projekt: SQL
 
-Uživatelské jméno GitHub: EvaCaDa
+Uživatelské jméno Discord: Eva C.D.
 
 ## Základní informace o projektu
 

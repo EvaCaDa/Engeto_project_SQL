@@ -27,6 +27,7 @@ Data pro Českou republiku za dané období jsou však kompletní.
 ### Otázka 1: Rostou v průběhu let mzdy ve všech odvětvích, nebo v některých klesají?
 
 V letech 2006-2018 každoročně rostly mzdy pouze v pěti sledovaných odvětvích: Zpracovatelský průmysl, Doprava a skladování, Administrativní a podpůrné činnosti, Zdravotní a sociální péče, Ostatní činnosti.
+
 Všechna ostatní sledovaná odvětví jinak zaznamenala alespoň jeden meziroční pokles. Nejčastěji klesaly průměrné mzdy v oblasti Těžba a dobývání, a to v letech 2009, 2013, 2014 a 2016.
 
 ### Otázka 2: Kolik je možné si koupit litrů mléka a kilogramů chleba za první a poslední srovnatelné období v dostupných datech cen a mezd?
@@ -35,7 +36,9 @@ V roce 2006 bylo možné si za průměrnou mzdu v rámci všech odvětví koupit
 
 ### Otázka 3: Která kategorie potravin zdražuje nejpomaleji (je u ní nejnižší percentuální meziroční nárůst)?
 
-Mezi lety 2006-2018 (pro kategorii Jakostní víno bílé jsou dostupná data pro rozmezí let 2015-2018) nejpomaleji zdražoval Cukr krystalový - 1 kg tohoto zboží každoročně v průměru zlevnil o 1,92 %. Stejně tak ve sledovaném období zlevňovala Rajská jablka červená kulatá (každoročně průměrně o 0,72 %). Ostatní měřené kategorie v průměru naopak zdražovaly, nejvíce pak Papriky.
+Mezi lety 2006-2018 (pro kategorii Jakostní víno bílé jsou dostupná data pro rozmezí let 2015-2018) nejpomaleji zdražoval Cukr krystalový - 1 kg tohoto zboží každoročně v průměru zlevnil o 1,92 %. Stejně tak ve sledovaném období zlevňovala Rajská jablka červená kulatá (každoročně průměrně o 0,72 %).
+
+Ostatní měřené kategorie v průměru naopak zdražovaly, nejvíce pak Papriky.
 
 ### Otázka 4: Existuje rok, ve kterém byl meziroční nárůst cen potravin výrazně vyšší než růst mezd (větší než 10 %)?
 

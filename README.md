@@ -42,11 +42,14 @@ Mezi lety 2006-2018 (pro kategorii Jakostní víno bílé jsou dostupná data pr
 Pokud se podíváme na průměrnou hodnotu růstu cen všech měřených kategorií potravin a srovnáme ji s průměrnou hodnotou růstu mezd ve všech měřených odvětvích, tak takový rok neexistuje. Nejblíže k němu měl rok 2013, ve kterém ceny potravin rostly o 6,81 % více než mzdy.
 
 Je však možné se na data podívat do většího detailu. Při srovnání růstu cen jednotlivých kategorií s průměrnou hodnotou mezd ve všech měřených odvětvích pouze v letech 2009 a 2014 meziročně nezdražila ani jediná kategorie potravin ve srovnání s průměrným růstem mezd. Ve všech ostatních srovnatelných letech cena alespoň jedné kategorie potravin vzrostla výrazně více než mzdy.
+
 Lze také srovnat růst cen všech měřených kategorií potravin se mzdami jednotlivých měřených odvětví. Při tomto pohledu pak rostly ceny všech potravin výrazně více než mzdy pouze v roce 2013, a to pro dvě měřená odvětví: Výroba a rozvod elektřiny, plynu, tepla a klimatizovaného vzduchu (10,4 %) a Peněžnictví a pojišťovnictví (15,11 %).
 
 ### Otázka 5: Má výška HDP vliv na změny ve mzdách a cenách potravin? Neboli, pokud HDP vzroste výrazněji v jednom roce, projeví se to na cenách potravin či mzdách ve stejném nebo následujícím roce výraznějším růstem?
 
 Medián růstu HDP je v rámci let 2006-2018 2,49 %. Tato hodnota byla stanovena jako hranice pro výraznější růst HDP, cen potravin i mezd pro zodpovězení páté otázky.
+
 Při pohledu na data lze vysledovat, že pokud vzroste v jednom roce HDP o více než 2,49 %, mzdy v tomtéž či následujícím roce také vzrostou o více než 2,49 %. (Z dostupných dat však nelze s jistotou vyčíst, že právě růst HDP způsobil růst mezd.)
+
 Totéž nelze říci o růstu cen potravin. V roce 2015 vzrostlo oproti předchozímu roku HDP o 5,39 %, ceny potravin však v letech 2015 i 2016 meziročně klesaly. (Stejně tak v roce 2018 HDP meziročně vzrostlo o 3,2 %, naopak ceny potravin šly dolů. Nejsou ale dostupná data pro rok 2019.)
 

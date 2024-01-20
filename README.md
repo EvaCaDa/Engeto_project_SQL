@@ -29,8 +29,6 @@ Data pro Českou republiku za dané období jsou však kompletní.
 V letech 2006-2018 každoročně rostly mzdy pouze v pěti sledovaných odvětvích: Zpracovatelský průmysl, Doprava a skladování, Administrativní a podpůrné činnosti, Zdravotní a sociální péče, Ostatní činnosti.
 Všechna ostatní sledovaná odvětví jinak zaznamenala alespoň jeden meziroční pokles. Nejčastěji klesaly průměrné mzdy v oblasti Těžba a dobývání, a to v letech 2009, 2013, 2014 a 2016.
 
-Největší meziroční pokles mezd nastal v oblasti Peněžnictví a pojišťovnictví, kde si zaměstnanci v roce 2013 meziročně pohoršili o 4530 Kč.
-
 ### Otázka 2: Kolik je možné si koupit litrů mléka a kilogramů chleba za první a poslední srovnatelné období v dostupných datech cen a mezd?
 
 V roce 2006 bylo možné si za průměrnou mzdu v rámci všech odvětví koupit 1408 l mléka nebo 1258 kg chleba. O dvanáct let později bylo možné za průměrnou mzdu získat 1613 l mléka nebo 1319 kg chleba.

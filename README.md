@@ -1,5 +1,6 @@
 # Engeto projekt: SQL
 
+Uživatelské jméno GitHub: EvaCaDa
 
 ## Základní informace o projektu
 

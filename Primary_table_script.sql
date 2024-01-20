@@ -21,13 +21,16 @@ CREATE OR REPLACE VIEW v_eva_cajzlova_czechia_payroll_ibch_null AS
 	WHERE
 		value_type_code = 5958
 		AND calculation_code = 100
-		AND industry_branch_code IS NULL;
+		AND industry_branch_code IS NULL
+	ORDER BY
+		payroll_year,
+		payroll_quarter;
 
 CREATE OR REPLACE VIEW v_eva_cajzlova_czechia_payroll_ibch_not_null_avg AS		
 	SELECT
 		payroll_year,
 		payroll_quarter,
-		avg(value) AS average_value_ibch_not_null
+		round(avg(value), 0) AS average_value_ibch_not_null
 	FROM czechia_payroll cp
 	WHERE
 		value_type_code = 5958
@@ -174,7 +177,7 @@ CREATE OR REPLACE VIEW v_eva_cajzlova_czechia_price_year_quarter_avg AS
 CREATE OR REPLACE TABLE t_eva_cajzlova_czechia_price_final AS
 	SELECT
 		pyqa.id AS price_id,
-		pyqa.avg_price_value_quarter AS price_avg_value,
+		pyqa.avg_price_value_quarter AS price_value,
 		pyqa.category_code,
 		cpc.name AS category_name,
 		concat(cpc.price_value, ' ', cpc.price_unit) AS price_value_unit,
@@ -203,8 +206,9 @@ SELECT
 	max(price_year)-- 2018
 FROM t_eva_cajzlova_czechia_price_final prif;
 
-CREATE OR REPLACE TABLE t_eva_cajzlova_project_SQL_primary_final
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_SQL_primary_final AS
 	SELECT *
+		
 	FROM t_eva_cajzlova_czechia_payroll_final payf
 	JOIN t_eva_cajzlova_czechia_price_final prif
 		ON payf.payroll_year = prif.price_year

@@ -9,13 +9,13 @@
 SELECT *
 FROM t_eva_cajzlova_project_sql_primary_final;
 
-CREATE VIEW v_eva_cajzlova_question3_avg_price_year AS
+CREATE OR REPLACE VIEW v_eva_cajzlova_question3_price_year_avg AS
 	SELECT
 		category_code,
 		category_name,
 		price_value_unit,
 		price_year,
-		round(avg(price_avg_value), 2) AS average_price
+		round(avg(price_value), 2) AS price_avg
 	FROM t_eva_cajzlova_project_sql_primary_final
 	GROUP BY
 		category_code,
@@ -24,13 +24,13 @@ CREATE VIEW v_eva_cajzlova_question3_avg_price_year AS
 		category_code,
 		price_year;
 
-CREATE VIEW v_eva_cajzlova_question3_interannual_difference_percent AS
+CREATE OR REPLACE VIEW v_eva_cajzlova_question3_interannual_difference_percent AS
 	SELECT
 		tab1.*,
-		tab2.average_price AS last_year_average_price,
-		round(((tab1.average_price / tab2.average_price * 100) - 100), 2) AS interannual_difference_percent
-	FROM v_eva_cajzlova_question3_avg_price_year tab1
-	JOIN v_eva_cajzlova_question3_avg_price_year tab2
+		tab2.price_avg AS last_year_price_avg,
+		round(((tab1.price_avg / tab2.price_avg * 100) - 100), 2) AS interannual_difference_percent
+	FROM v_eva_cajzlova_question3_price_year_avg tab1
+	JOIN v_eva_cajzlova_question3_price_year_avg tab2
 		ON tab1.price_year = tab2.price_year + 1
 		AND tab1.category_code = tab2.category_code;
 

@@ -71,11 +71,6 @@ FROM t_eva_cajzlova_project_sql_question4_all_categories
 ORDER BY
 	`year`;
 
-SELECT *
-FROM t_eva_cajzlova_project_sql_question4_all_categories
-ORDER BY
-	growth_difference DESC;
-
 -- meziroční růst cen potravin (průměr všech kategorií) versus meziroční růst cen mezd (dle odvětví)
 CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_all_branches AS 
 	SELECT
@@ -111,14 +106,3 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question4_all_branches_catego
 		ON pay.payroll_year = pri.price_year
 	HAVING
 		growth_difference > 10;
-
-SELECT
-	DISTINCT(`year`)
-FROM t_eva_cajzlova_project_sql_question4_all_branches_categories
-ORDER BY
-	`year`;
-
-SELECT *
-FROM t_eva_cajzlova_project_sql_question4_all_branches_categories
-ORDER BY
-	growth_difference DESC;

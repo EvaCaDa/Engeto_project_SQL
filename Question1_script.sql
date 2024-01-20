@@ -20,7 +20,7 @@ CREATE OR REPLACE VIEW v_eva_cajzlova_question1_payroll_year_avg AS
 		industry_branch_code,
 		payroll_year;
 
-CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question1_final AS
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question1_interannual_differences AS
 	SELECT
 		tab1.*,
 		tab2.average_payroll AS last_year_average_payroll,
@@ -36,17 +36,18 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question1_final AS
 
 CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question1_payroll_decrease AS
 	SELECT *
-	FROM t_eva_cajzlova_project_sql_question1_final
-	WHERE average_payroll_growth = 0;
+	FROM t_eva_cajzlova_project_sql_question1_interannual_differences
+	WHERE
+		average_payroll_growth = 0;
 
-
-SELECT *
-FROM t_eva_cajzlova_project_sql_question1_final
-ORDER BY
-	interannual_difference DESC;
-
-SELECT
-	round(avg(interannual_difference), 2) AS average_interannual_difference
-FROM t_eva_cajzlova_project_sql_question1_final
-ORDER BY
-	interannual_difference DESC;
+CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question1_final AS 
+	SELECT
+		industry_branch_code,
+		branch_code_name,
+		sum(average_payroll_growth) AS years_of_growth
+	FROM t_eva_cajzlova_project_sql_question1_interannual_differences
+	GROUP BY
+		industry_branch_code
+	ORDER BY
+		years_of_growth DESC,
+		industry_branch_code;

@@ -39,9 +39,10 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question3_final
 		category_code,
 		category_name,
 		price_value_unit,
-		sum(interannual_difference_percent) AS total_price_growth_percent
+		sum(interannual_difference_percent) AS total_price_growth_percent,
+		round(avg(interannual_difference_percent), 2) AS price_growth_percent_avg
 	FROM v_eva_cajzlova_question3_interannual_difference_percent
 	GROUP BY
 		category_code
 	ORDER BY
-		total_price_growth_percent ASC;
+		price_growth_percent_avg ASC;

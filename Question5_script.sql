@@ -45,7 +45,7 @@ SELECT
 	*,
 	round((median(GDP_ia_diff_percent) OVER ()), 2) AS GDP_median
 FROM v_eva_cajzlova_question5_gdp_pri_pay;
--- Medián GDP ve srovnatelném období (2.49) vezmu jako hranici pro výraznější růst.
+-- Medián HDP ve srovnatelném období (2.49) vezmu jako hranici pro výraznější růst.
 
 CREATE OR REPLACE VIEW v_eva_cajzlova_question5_sig_changes AS 
 	SELECT
@@ -76,20 +76,20 @@ CREATE OR REPLACE TABLE t_eva_cajzlova_project_sql_question5_final AS
 		price_ia_diff_percent_avg,
 		payroll_ia_diff_percent_avg,
 		CASE
-			WHEN GDP_sig_growth = 1 AND (price_sig_growth = 1 OR payroll_sig_growth = 1) THEN 1
-			WHEN GDP_sig_growth = 0 THEN 2
-			ELSE 0
+			WHEN GDP_sig_growth = 1 AND (price_sig_growth = 1 OR payroll_sig_growth = 1) THEN 'true'
+			WHEN GDP_sig_growth = 0 THEN 'not relevant'
+			ELSE 'false'
 		END AS effect_on_price_payroll,
 		CASE
-			WHEN GDP_sig_growth = 1 AND price_sig_growth = 1 THEN 1
-			WHEN GDP_sig_growth = 0 THEN 2
-			WHEN GDP_sig_growth = 1 AND payroll_sig_growth = 1 THEN 3
-			ELSE 0
+			WHEN GDP_sig_growth = 1 AND price_sig_growth = 1 THEN 'true'
+			WHEN GDP_sig_growth = 0 THEN 'not relevant'
+			WHEN GDP_sig_growth = 1 AND payroll_sig_growth = 1 THEN 'true for payroll only'
+			ELSE 'false'
 		END AS effect_on_price,
 		CASE
-			WHEN GDP_sig_growth = 1 AND payroll_sig_growth = 1 THEN 1
-			WHEN GDP_sig_growth = 0 THEN 2
-			WHEN GDP_sig_growth = 1 AND price_sig_growth = 1 THEN 3
-			ELSE 0
+			WHEN GDP_sig_growth = 1 AND payroll_sig_growth = 1 THEN 'true'
+			WHEN GDP_sig_growth = 0 THEN 'not relevant'
+			WHEN GDP_sig_growth = 1 AND price_sig_growth = 1 THEN 'true for price only'
+			ELSE 'false'
 		END AS effect_on_payroll
 	FROM v_eva_cajzlova_question5_sig_changes;

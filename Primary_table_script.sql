@@ -210,7 +210,6 @@ FROM t_eva_cajzlova_czechia_price_final prif;
 
 CREATE OR REPLACE TABLE t_eva_cajzlova_project_SQL_primary_final AS
 	SELECT *
-		
 	FROM t_eva_cajzlova_czechia_payroll_final payf
 	JOIN t_eva_cajzlova_czechia_price_final prif
 		ON payf.payroll_year = prif.price_year
